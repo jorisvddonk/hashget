@@ -34,8 +34,9 @@ if (argv.serve) {
   read(argv._[0]);
 }
 
+var sw = swarm(require('dat-swarm-defaults')());
+
 function serve(hex, readstream, filename) {
-  var sw = swarm();
   sw.listen();
   var swarm_name = "hashget:" + hex;
   sw.join(swarm_name);
@@ -55,7 +56,6 @@ function serve(hex, readstream, filename) {
 }
 
 function read(hex) {
-  var sw = swarm();
   sw.listen();
   var swarm_name = "hashget:" + hex;
   sw.join(swarm_name);
