@@ -9,6 +9,7 @@ const debug = require("debug");
 const log = debug("hashget");
 const log_debug = debug("hashget:debug");
 const path = require("path");
+var sw = swarm(require('dat-swarm-defaults')());
 debug.enable("hashget");
 
 if (argv.debug) {
@@ -34,7 +35,6 @@ if (argv.serve) {
   read(argv._[0]);
 }
 
-var sw = swarm(require('dat-swarm-defaults')());
 
 function serve(hex, readstream, filename) {
   sw.listen();
