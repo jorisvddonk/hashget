@@ -2,14 +2,15 @@
 
 var argv = require("yargs").argv;
 const crypto = require("crypto");
-const swarm = require("discovery-swarm");
+const discoveryServer = require("discovery-server");
+const discoveryChannel = require("discovery-channel");
+const net = require('net');
 const fs = require("fs");
 const hash = crypto.createHash("sha256");
 const debug = require("debug");
 const log = debug("hashget");
 const log_debug = debug("hashget:debug");
 const path = require("path");
-var sw = swarm(require('dat-swarm-defaults')());
 debug.enable("hashget");
 
 if (argv.debug) {
@@ -26,8 +27,7 @@ if (argv.serve) {
     if (data) {
       var hex = data.toString("hex");
       console.log("hashget " + hex);
-      log("Serving!");
-      serve(hex, fs.createReadStream(filepath), filename);
+      serve(hex, filepath, filename);
     }
   });
 } else {
@@ -36,34 +36,36 @@ if (argv.serve) {
 }
 
 
-function serve(hex, readstream, filename) {
-  sw.listen();
+function serve(hex, filepath, filename) {
   var swarm_name = "hashget:" + hex;
-  sw.join(swarm_name);
-
-  sw.on("connection", function(connection, info) {
+  log("Serving!");
+  var server = discoveryServer(require('dat-swarm-defaults')(), function(connection) {
+    log_debug("Connected to peer!");
+    var readstream = fs.createReadStream(filepath);
     readstream.on("end", function() {
       log("Done!");
+      connection.end();
     });
-    connection.on("end", function() {
-      sw.close();
-    });
-    log_debug("Connected to peer!", info);
     connection.write(filename);
     connection.write("\n");
     readstream.pipe(connection);
+    connection.on('close', function() {
+      process.exit();
+    })
+  });
+  server.listen(swarm_name, function(){
+    log("Now listening!");
   });
 }
 
 function read(hex) {
-  sw.listen();
   var swarm_name = "hashget:" + hex;
-  sw.join(swarm_name);
-
+  var channel = discoveryChannel(require('dat-swarm-defaults')());
   var has_filename = false;
   var filename = "";
-  sw.on("connection", function(connection, info) {
-    log_debug("Connected to peer!", info);
+  channel.on('peer', function(key, peer) {
+    var connection = net.connect(peer.port, peer.host);
+    log_debug("Connecting to peer...", peer);
     connection.on("data", function(dat) {
       log_debug("data:" + dat.length);
       var resbuf = null;
@@ -92,4 +94,6 @@ function read(hex) {
       //sw.leave(swarm_name)
     });
   });
+  channel.join(swarm_name);
+
 }

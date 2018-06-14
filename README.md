@@ -1,6 +1,6 @@
 Hashget is a super-simple single-file file transfer CLI tool with peer discovery.
 
-Most of the heavy lifting here is done by [discovery-swarm](https://github.com/mafintosh/discovery-swarm)!
+Most of the heavy lifting here is done by [discovery-channel](https://github.com/mafintosh/discovery-channel) and [discovery-server](https://github.com/mafintosh/discovery-server)!
 
 ## Usage
 
