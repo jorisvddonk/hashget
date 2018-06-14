@@ -12,4 +12,4 @@ This will output the command you have to run on a client to receive the file!
 
 ## Current status
 
-Currently, this project.. somewhat works and is a **work in progress**. There may be bugs, even in core functionality, and what little security features have been added currently do *not* prevent your files from getting in the hands of people who know what they're doing. Hashget is currently mostly a research project, to figure out how discovery-channel and discovery-server works and how it can be used to practical applications.
+Currently, this project.. somewhat works and is a **work in progress**. There may be bugs, even in core functionality, and what little security features have been added currently do *not* prevent your files from getting in the hands of people who know what they're doing. Hashget is currently mostly a research project, to figure out how discovery-channel and discovery-server work and how they can be used for practical applications.
