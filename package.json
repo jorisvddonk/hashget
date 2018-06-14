@@ -16,6 +16,8 @@
     "debug": "^3.1.0",
     "discovery-channel": "^5.5.1",
     "discovery-server": "^1.1.0",
+    "get-port": "^3.2.0",
+    "nat-upnp": "^1.1.1",
     "yargs": "^11.0.0"
   }
 }
