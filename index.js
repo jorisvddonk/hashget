@@ -10,7 +10,7 @@ const path = require("path");
 const serve = require('./lib/serve');
 const receive = require('./lib/receive');
 
-debug.enable("hashget");
+debug.enable("hashget,hashget:*"); // temporarily always enable during testing
 if (argv.debug) {
   debug.enable("hashget,hashget:*");
 }
