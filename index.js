@@ -24,10 +24,9 @@ if (argv.serve) {
     const data = hash.read();
     if (data) {
       var hex = data.toString("hex");
-      console.log("hashget " + hex);
       serve(hex, filepath, filename);
     }
   });
 } else {
-  receive(argv._[0]);
+  receive(argv._[0], argv._[1]);
 }
